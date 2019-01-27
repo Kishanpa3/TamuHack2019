@@ -1,4 +1,10 @@
 <resources>
-    <string name="app_name">EmotionAPI</string>
+    <string name="app_name">E2I</string>
     <string name="default_text_emotion">Emotion Description</string>
+    <string name="image_text_error">Oops! Detection Failed.</string>
+
+
+    <string name="button_set_wallpaper">Set Wallpaper</string>
+    <string name="loading_emotion_text">Getting results…</string>
+
 </resources>

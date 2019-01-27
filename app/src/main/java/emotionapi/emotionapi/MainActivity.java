@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
     HashMap<Integer, Pair<String, String>> emotionColorPairs;
 
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +88,18 @@ public class MainActivity extends AppCompatActivity {
         // initiate our image view and text view
         imageView = (ImageView) findViewById(R.id.imageView);
         resultText = (TextView) findViewById(R.id.resultText);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
 
     public void getCameraImage(View view) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_CAMERA_CODE);
+        if (checkPermission()) {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_CAMERA_CODE);
+            }
+        } else {
+            requestPermission();
         }
     }
 
@@ -186,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            resultText.setText("Getting results...");
+            resultText.setText(R.string.loading_emotion_text);
         }
 
         // this function is called when the api call is made
@@ -259,12 +267,17 @@ public class MainActivity extends AppCompatActivity {
                     emotions[i] /= jArray.length();
                 }
 
+                if(maxIndex == 0 && max == 0.0)
+                {
+                    maxIndex = 5;
+                }
+
                 updateColor(maxIndex);
 
                 String emotion = emotionColorPairs.get(maxIndex).second;
                 resultText.setText(emotion);
             } catch (Exception e) {
-                resultText.setText(e.getMessage());
+                resultText.setText(R.string.image_text_error);
             }
         }
     }
@@ -278,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         //Extracts JSON Object from Image Query URL
@@ -310,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String imageURL) {
             super.onPostExecute(imageURL);
-
+            progressBar.setVisibility(View.INVISIBLE);
             if (imageURL == null) {
                 Toast toast = Toast.makeText(MainActivity.this, "Failed To Set Wallpaper", Toast.LENGTH_LONG );
                 toast.show();
