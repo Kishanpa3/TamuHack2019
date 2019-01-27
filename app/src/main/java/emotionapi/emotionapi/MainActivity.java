@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImageView;
 
     Random rand = new Random();
-    int pageNumber = rand.nextInt(100)+1;
+    int pageNumber = rand.nextInt(100) + 1;
 
 
     //Google Custom Search API Authentication
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             "&searchType=image" +
             "&fields=url,items(link)";
 
-    HashMap<Integer, String> emotionColorPairs;
+    HashMap<Integer, Pair<String, String>> emotionColorPairs;
 
 
     @Override
@@ -85,15 +86,17 @@ public class MainActivity extends AppCompatActivity {
         resultText = (TextView) findViewById(R.id.resultText);
     }
 
-    // when the "GET EMOTION" Button is clicked this function is called
-    public void getEmotion(View view) {
-        // run the GetEmotionCall class in the background
-        GetEmotionCall emotionCall = new GetEmotionCall(imageView);
-        emotionCall.execute();
+
+    public void getCameraImage(View view) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_CAMERA_CODE);
+        }
     }
 
+
     // when the "GET IMAGE" Button is clicked this function is called
-    public void getImage(View view) {
+    public void getGalleryImage(View view) {
         // check if user has given us permission to access the gallery
         if (checkPermission()) {
             Intent choosePhotoIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -102,6 +105,15 @@ public class MainActivity extends AppCompatActivity {
             requestPermission();
         }
     }
+
+
+    // when the "SET WALLPAPER" Button is clicked this function is called
+    public void setWallpaper(View view){
+        //Parses JSON Object and sets Wallpaper
+        WallpaperFactory url = new WallpaperFactory();
+        url.execute();
+    }
+
 
     // This function gets the selected picture from the gallery and shows it on the image view
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -119,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
             imageView.setImageBitmap(bitmap);
+
+//            processImageEmotion();
         }
 
         if (requestCode == REQUEST_CAMERA_CODE && resultCode == RESULT_OK) {
@@ -131,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mImageView.setImageBitmap(imageBitmap);
         }
+
+        processImageEmotion();
     }
 
 
@@ -155,12 +171,6 @@ public class MainActivity extends AppCompatActivity {
         return result == PackageManager.PERMISSION_GRANTED && result2 == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void getCameraImage(View view) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_CAMERA_CODE);
-        }
-    }
 
     // asynchronous class which makes the api call in the background
     private class GetEmotionCall extends AsyncTask<Void, Void, String> {
@@ -249,21 +259,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 updateColor(maxIndex);
-                getURLRequest();
 
-                String maxString = String.valueOf(maxIndex);
-                resultText.setText(maxString);
+                String emotion = emotionColorPairs.get(maxIndex).second;
+                resultText.setText(emotion);
 
             } catch (Exception e) {
                 resultText.setText(e.getMessage());
             }
         }
-    }
-
-    private void getURLRequest() {
-        //Parses JSON Object and sets Wallpaper
-        WallpaperFactory url = new WallpaperFactory();
-        url.execute();
     }
 
 //______________________________________________________________________________________________
@@ -322,8 +325,14 @@ public class MainActivity extends AppCompatActivity {
 //                                   HELPER FUNCTIONS
 //______________________________________________________________________________________________
 
+    public void processImageEmotion(){
+        // run the GetEmotionCall class in the background
+        GetEmotionCall emotionCall = new GetEmotionCall(imageView);
+        emotionCall.execute();
+    }
+
     //Reseeds random value for page number
-    private void updatePageNumber() {
+    void updatePageNumber() {
         pageNumber = rand.nextInt(100)+1;
 
         queryURL = "https://www.googleapis.com/customsearch/v1?key=" + apiKey + "&cx=" + cxKey +
@@ -338,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     void updateColor(int colorKey){
-        String color = emotionColorPairs.get(colorKey);
+        color = emotionColorPairs.get(colorKey).first;
 
         queryURL = "https://www.googleapis.com/customsearch/v1?key=" + apiKey + "&cx=" + cxKey +
                 "&imgSize=large" +
@@ -354,13 +363,13 @@ public class MainActivity extends AppCompatActivity {
     void initEmotionColorMap() {
         emotionColorPairs = new HashMap<>();
 
-        emotionColorPairs.put(0, "red");
-        emotionColorPairs.put(1, "black");
-        emotionColorPairs.put(2, "green");
-        emotionColorPairs.put(3, "purple");
-        emotionColorPairs.put(4, "yellow");
-        emotionColorPairs.put(5, "white");
-        emotionColorPairs.put(6, "blue");
-        emotionColorPairs.put(7, "orange");
+        emotionColorPairs.put(0, new Pair<>("red", "angry"));
+        emotionColorPairs.put(1, new Pair<>("black", "contempt"));
+        emotionColorPairs.put(2, new Pair<>("green" , "disgust"));
+        emotionColorPairs.put(3, new Pair<>("purple", "fear"));
+        emotionColorPairs.put(4, new Pair<>("yellow", "happiness"));
+        emotionColorPairs.put(5, new Pair<>("white", "neutral"));
+        emotionColorPairs.put(6, new Pair<>("blue", "sad"));
+        emotionColorPairs.put(7, new Pair<>("orange", "surprised"));
     }
 }
