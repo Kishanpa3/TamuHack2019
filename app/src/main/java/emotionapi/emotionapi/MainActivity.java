@@ -185,27 +185,27 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 //            JSONArray jsonArray = null;
-//            try {
-//                // convert the string to JSONArray
+            try {
+                // convert the string to JSONArray
 //                jsonArray = new JSONArray(result);
-                String emotions = result;
-//                String jsonString = result.trim();
-//                if (jsonString.charAt(0) == '[') {
-//                    JSONArray jsonArray = new JSONArray(jsonString);
-//                    emotions+=(jsonArray.toString(2));
-//                } else if (jsonString.charAt(0) == '{') {
-//                    JSONObject jsonObject = new JSONObject(jsonString);
-//                    emotions+=(jsonObject.toString(2));
-//                } else {
-//                    emotions+=(jsonString);
-//                }
+                String emotions = "";
+                String jsonString = result.trim();
+                if (jsonString.charAt(0) == '[') {
+                    JSONArray jsonArray = new JSONArray(jsonString);
+                    emotions+=(jsonArray.toString(2));
+                } else if (jsonString.charAt(0) == '{') {
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    emotions+=(jsonObject.toString(2));
+                } else {
+                    emotions+=(jsonString);
+                }
 
                 emotions = emotions.substring(emotions.length()/2);
                 resultText.setText(emotions);
-//
-//            } catch (JSONException e) {
-//                resultText.setText("No emotion detected. Try again later");
-//            }
+
+            } catch (JSONException e) {
+                resultText.setText("No emotion detected. Try again later");
+            }
         }
     }
 }
