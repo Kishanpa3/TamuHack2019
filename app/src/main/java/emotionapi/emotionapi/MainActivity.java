@@ -329,6 +329,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(MainActivity.this, "Failed To Set Wallpaper", Toast.LENGTH_LONG );
                 toast.show();
             } else {
+                Toast toast = Toast.makeText(MainActivity.this, "Wallpaper Set", Toast.LENGTH_SHORT );
+                toast.show();
                 System.out.println(imageURL);
                 updatePageNumber();
             }
