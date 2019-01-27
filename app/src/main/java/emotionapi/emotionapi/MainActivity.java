@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 
 import cz.msebera.android.httpclient.HttpEntity;
@@ -262,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
 
                 String emotion = emotionColorPairs.get(maxIndex).second;
                 resultText.setText(emotion);
-
             } catch (Exception e) {
                 resultText.setText(e.getMessage());
             }
@@ -363,13 +363,13 @@ public class MainActivity extends AppCompatActivity {
     void initEmotionColorMap() {
         emotionColorPairs = new HashMap<>();
 
-        emotionColorPairs.put(0, new Pair<>("red", "angry"));
-        emotionColorPairs.put(1, new Pair<>("black", "contempt"));
-        emotionColorPairs.put(2, new Pair<>("green" , "disgust"));
-        emotionColorPairs.put(3, new Pair<>("purple", "fear"));
-        emotionColorPairs.put(4, new Pair<>("yellow", "happiness"));
-        emotionColorPairs.put(5, new Pair<>("white", "neutral"));
-        emotionColorPairs.put(6, new Pair<>("blue", "sad"));
-        emotionColorPairs.put(7, new Pair<>("orange", "surprised"));
+        emotionColorPairs.put(0, new Pair<>("red", "Angry"));
+        emotionColorPairs.put(1, new Pair<>("black", "Contempt"));
+        emotionColorPairs.put(2, new Pair<>("green" , "Disgust"));
+        emotionColorPairs.put(3, new Pair<>("purple", "Fear"));
+        emotionColorPairs.put(4, new Pair<>("yellow", "Happy"));
+        emotionColorPairs.put(5, new Pair<>("white", "Neutral"));
+        emotionColorPairs.put(6, new Pair<>("blue", "Sad"));
+        emotionColorPairs.put(7, new Pair<>("orange", "Surprised"));
     }
 }

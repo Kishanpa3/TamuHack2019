@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EmotionAPI</string>
+    <string name="default_text_emotion">Emotion Description</string>
 </resources>

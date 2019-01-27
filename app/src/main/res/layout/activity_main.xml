@@ -5,110 +5,111 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="emotionapi.emotionapi.MainActivity"
+    android:background="@drawable/layout_background"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
 
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:srcCompat="@mipmap/ic_launcher"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/getCameraImage"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="18dp"
-        app:layout_constraintRight_toRightOf="@+id/getCameraImage"
-        android:layout_marginTop="16dp"
-        tools:layout_constraintLeft_creator="1"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintLeft_toLeftOf="@+id/getImage"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/getImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get Image"
-        android:onClick="getGalleryImage"
-        android:layout_marginStart="60dp"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <Button
-        android:id="@+id/getCameraImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Take Image"
-        android:onClick="getCameraImage"
-        android:layout_marginEnd="36dp"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/resultText"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="64dp"
-        android:layout_marginRight="36dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/ic_launcher"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/setWallpaper"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <ImageButton
+            android:id="@+id/galleryButton"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/small_rounded"
+            android:onClick="getGalleryImage"
+            android:layout_marginRight="25dp"
+            app:srcCompat="@android:drawable/ic_menu_gallery"
+            tools:layout_editor_absoluteX="57dp"
+            tools:layout_editor_absoluteY="380dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/small_rounded"
+            android:onClick="getCameraImage"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="25dp"
+            app:srcCompat="@android:drawable/ic_menu_camera"
+            tools:layout_editor_absoluteX="212dp"
+            tools:layout_editor_absoluteY="368dp" />
+    </LinearLayout>
+
 
     <Button
-        android:id="@+id/getEmotion"
+        android:id="@+id/setWallpaper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Wallpaper"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded"
         android:onClick="setWallpaper"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="83dp"
-        android:layout_marginEnd="90dp"
-        app:layout_constraintRight_toRightOf="@+id/getCameraImage"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/getCameraImage"
+        android:padding="16dp"
+        android:text="Set Wallpaper"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/getImage" />
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/resultText"
-        android:layout_width="285dp"
-        android:layout_height="93dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:text=""
-        android:textAlignment="viewStart"
+        android:gravity="center"
+        android:text="@string/default_text_emotion"
+        android:textColor="#FFFFFF"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Large"
-        android:textSize="18sp"
+        android:textSize="30sp"
         android:typeface="normal"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="20dp"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintLeft_toLeftOf="@+id/getImage"
-        tools:layout_editor_absoluteY="394dp"
-        app:layout_constraintHorizontal_bias="0.473" />
+        tools:layout_constraintRight_creator="1" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="84dp"
-        android:layout_height="26dp"
-        android:ems="10"
-        android:text="Result:"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Large"
-        android:textSize="18sp"
-        android:typeface="normal"
-        android:layout_marginStart="4dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/resultText"
-        tools:layout_constraintBaseline_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="73dp" />
+
 
 
 </android.support.constraint.ConstraintLayout>
